@@ -1,3 +1,5 @@
+import confetti from 'canvas-confetti';
+
 const toggleSwitchCheckbox = document.getElementById("toggle-switch-checkbox");
 const greetingElement = document.getElementById("greeting");
 
@@ -18,15 +20,74 @@ function setSwitchState(state) {
   // console.log(`Switch state set to: ${state}`);
 }
 
+function createConfetti(isNight) {
+  const colors = isNight ? ['#94a3b8', '#cbd5e1', '#e2e8f0'] : ['#facc15', '#fde047', '#fff'];
+  
+  const count = 100;
+  const defaults = {
+    origin: { y: 0.7 },
+    spread: 50,
+    ticks: 100,
+    gravity: 0.8,
+    decay: 0.94,
+    startVelocity: 30,
+    shapes: ['star'],
+    colors: colors,
+    scalar: 2
+  };
+
+  function fire(particleRatio, opts) {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio)
+    });
+  }
+
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55,
+  });
+
+  fire(0.2, {
+    spread: 60,
+  });
+
+  fire(0.35, {
+    spread: 100,
+    decay: 0.91,
+    scalar: 0.8
+  });
+
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 25,
+    decay: 0.92,
+    scalar: 1.2
+  });
+
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 45,
+  });
+}
+
 function updateTheme(isNightMode) {
   // Update body class
   document.body.classList.toggle("night-mode", isNightMode);
   
-  // Update greeting text
-  greetingElement.textContent = isNightMode ? "Good Night!" : "Good Morning!";
+  // Update greeting text with fade effect
+  greetingElement.style.opacity = "0";
+  setTimeout(() => {
+    greetingElement.textContent = isNightMode ? "Good Night!" : "Good Morning!";
+    greetingElement.style.opacity = "1";
+  }, 500);
   
   // Save state to localStorage
   localStorage.setItem("isNightMode", isNightMode);
+
+  // Trigger confetti
+  createConfetti(isNightMode);
 }
 
 // --- Initialization ---

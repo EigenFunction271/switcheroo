@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="background">
+      <div class="clouds">
+        <svg class="cloud cloud-1" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 30 Q20 20 30 30 T50 30 T70 30 T90 30 V40 H10 Z" fill="currentColor"/>
+        </svg>
+        <svg class="cloud cloud-2" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 30 Q20 20 30 30 T50 30 T70 30 T90 30 V40 H10 Z" fill="currentColor"/>
+        </svg>
+        <svg class="cloud cloud-3" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 30 Q20 20 30 30 T50 30 T70 30 T90 30 V40 H10 Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="stars"></div>
+    </div>
+
     <div class="container">
       <h1 id="greeting">Good Morning!</h1>
       
@@ -21,19 +36,30 @@
           <div class="toggle-icon sun-icon">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="12" cy="12" r="5" fill="#facc15" />
+              <g class="sun-beams" stroke="#facc15" stroke-width="2" stroke-linecap="round">
+                <line x1="12" y1="3" x2="12" y2="5"/>
+                <line x1="12" y1="19" x2="12" y2="21"/>
+                <line x1="5" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="19" y2="12"/>
+                <line x1="7" y1="7" x2="5.5" y2="5.5"/>
+                <line x1="18.5" y1="18.5" x2="17" y2="17"/>
+                <line x1="17" y1="7" x2="18.5" y2="5.5"/>
+                <line x1="5.5" y1="18.5" x2="7" y2="17"/>
+              </g>
             </svg>
           </div>
           <div class="toggle-icon moon-icon">
             <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="5" fill="#cbd5e1" />
-              <circle cx="10" cy="10" r="1.5" fill="#94a3b8" />
-              <circle cx="14.5" cy="11.5" r="1" fill="#94a3b8" />
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#cbd5e1"/>
+              <circle cx="15" cy="9" r="1" fill="#94a3b8"/>
+              <circle cx="18" cy="7" r="1" fill="#94a3b8"/>
             </svg>
           </div>
         </label>
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <canvas id="confetti-canvas"></canvas>
+    <script type="module" src="script.js"></script>
   </body>
 </html>

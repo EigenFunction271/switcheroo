@@ -7,6 +7,9 @@
         "build": "parcel build src/index.html --public-url ./",
         "start": "parcel src/index.html"
     },
+    "dependencies": {
+        "canvas-confetti": "^1.9.2"
+    },
     "devDependencies": {
         "@parcel/transformer-sass": "2.11.0",
         "autoprefixer": "^10.4.17",
