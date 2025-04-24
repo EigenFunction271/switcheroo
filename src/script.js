@@ -5,10 +5,10 @@ const greetingElement = document.getElementById("greeting");
 const toggleWrapper = document.querySelector(".toggle-wrapper");
 
 // Mouse avoidance variables
-const DISTANCE_THRESHOLD = 200;
-const MAX_MOVEMENT = 50;
-const SPRING_STRENGTH = 0.15; // Controls how "stiff" the spring is
-const DAMPING = 0.8; // Controls how quickly the oscillation settles
+const DISTANCE_THRESHOLD = 400;
+const MAX_MOVEMENT = 80;
+const SPRING_STRENGTH = 0.12;
+const DAMPING = 0.85;
 let isAnimating = false;
 let mouseX = 0;
 let mouseY = 0;
