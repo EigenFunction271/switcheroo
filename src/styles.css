@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Basic body styling just to center the toggle */
+  body {
+    min-height: 100vh; /* Use min-height for flexibility */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #bae6fd;
+    transition: background-color 1000ms ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+  
+  body.night-mode {
+    background-color: #0f172a;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #0f172a;
+    transition: color 1000ms ease;
+  }
+  
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .night-mode h1 {
+    color: #f8fafc;
+  }
+  
+  .toggle-wrapper {
+    position: relative;
+  }
+  
+  /* Hide the actual checkbox */
+  #toggle-switch-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute; /* Keep it out of flow but accessible */
+  }
+  
+  /* Style the label which acts as the visible toggle */
+  .toggle-container {
+    position: relative; /* Needed for positioning pseudo-elements */
+    width: 200px;
+    height: 100px;
+    cursor: pointer; /* Indicate it's clickable */
+    display: block; /* Ensure it takes up space */
+    overflow: hidden;
+  }
+  
+  /* Style the background track of the toggle */
+  .toggle-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Use percentage for flexibility */
+    height: 100%; /* Use percentage for flexibility */
+    border-radius: 50px; /* height / 2 */
+    background: linear-gradient(to right, #bae6fd, #7dd3fc);
+    transition: all 1000ms ease;
+  }
+  
+  /* Style the handle (the circle) of the toggle */
+  .toggle-container::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 90px; /* height - 2 * top_offset */
+    height: 90px; /* height - 2 * top_offset */
+    border-radius: 50%;
+    background-color: white;
+    transition: transform 0.3s ease; /* Smooth sliding transition */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* --- Checked State Styles --- */
+  /* Use the sibling combinator (~) */
+  
+  /* Change track background when checked ('on' state) */
+  #toggle-switch-checkbox:checked ~ .toggle-container::before {
+    background: linear-gradient(to right, #1e293b, #0f172a);
+  }
+  
+  /* Move the handle to the right when checked ('on' state) */
+  #toggle-switch-checkbox:checked ~ .toggle-container::after {
+    /* Calculation: (container_width - handle_width - left_offset) */
+    transform: translateX(
+      100px
+    ); /* 200px - 90px - (2*5px) -> simplified to 100px */
+  }
+  
+  /* Optional: Add focus styles for accessibility */
+  #toggle-switch-checkbox:focus-visible + .toggle-container::before {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  .toggle-icon {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: 5px;
+    left: 5px;
+    border-radius: 50%;
+    background-color: white;
+    transition: transform 1000ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .moon-icon {
+    opacity: 0;
+    transform: rotate(-180deg);
+  }
+  
+  .sun-icon {
+    opacity: 1;
+  }
+  
+  #toggle-switch-checkbox:checked ~ .toggle-container .toggle-icon {
+    transform: translateX(100px);
+  }
+  
+  #toggle-switch-checkbox:checked ~ .toggle-container .sun-icon {
+    opacity: 0;
+    transform: rotate(180deg);
+  }
+  
+  #toggle-switch-checkbox:checked ~ .toggle-container .moon-icon {
+    opacity: 1;
+    transform: translateX(100px) rotate(0);
+  }
+  
