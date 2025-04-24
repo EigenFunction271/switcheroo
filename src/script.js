@@ -375,7 +375,7 @@ function animateCursor() {
   cursorX += (cursorTargetX - cursorX) * 0.1;
   cursorY += (cursorTargetY - cursorY) * 0.1;
   
-  customCursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-4px, -4px)`;
+  customCursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-0.5px, -0.5px)`;
   
   requestAnimationFrame(animateCursor);
 }
