@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    cursor: none !important;
   }
   
   /* Basic body styling just to center the toggle */
@@ -338,5 +339,73 @@
     100% {
       transform: translateX(calc(100vw + 100px)) rotate(360deg);
     }
+  }
+  
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: 1000;
+    transform-origin: center;
+    box-shadow: 0 0 4px currentColor;
+    transition: opacity 0.2s ease;
+  }
+  
+  /* Custom cursor styles */
+  .custom-cursor {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-15px, -15px);
+    transition: transform 0.1s ease;
+  }
+  
+  .alien-head {
+    width: 100%;
+    height: 100%;
+    background-color: #4ade80;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 5px rgba(74, 222, 128, 0.5);
+  }
+  
+  .alien-eyes {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .alien-eye {
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+  .alien-eye::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+  }
+  
+  .alien-mouth {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 4px;
+    background-color: #000;
+    border-radius: 2px;
   }
   

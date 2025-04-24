@@ -37,6 +37,64 @@ popSound.volume = 0.3;
 
 let lastSoundTime = 0;
 
+// Sparkle effect setup
+const sparkleColors = {
+  day: ['#facc15', '#fde047', '#fff'],
+  night: ['#94a3b8', '#cbd5e1', '#e2e8f0']
+};
+
+function createSparkle(x, y, isClick = false) {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.style.left = `${x}px`;
+  sparkle.style.top = `${y}px`;
+  
+  // Random size for variety
+  const size = isClick ? Math.random() * 8 + 4 : Math.random() * 4 + 2;
+  sparkle.style.width = `${size}px`;
+  sparkle.style.height = `${size}px`;
+  
+  // Random rotation
+  sparkle.style.transform = `rotate(${Math.random() * 360}deg)`;
+  
+  // Random color from current theme
+  const colors = document.body.classList.contains('night-mode') ? sparkleColors.night : sparkleColors.day;
+  sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+  
+  document.body.appendChild(sparkle);
+  
+  // Animate sparkle
+  sparkle.animate([
+    { transform: 'scale(1) rotate(0deg)', opacity: 1 },
+    { transform: 'scale(0) rotate(360deg)', opacity: 0 }
+  ], {
+    duration: isClick ? 1000 : 500,
+    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+  }).onfinish = () => sparkle.remove();
+}
+
+// Track cursor movement
+let lastSparkleTime = 0;
+document.addEventListener('mousemove', (e) => {
+  const currentTime = Date.now();
+  if (currentTime - lastSparkleTime > 50) { // Limit sparkle frequency
+    createSparkle(e.clientX, e.clientY);
+    lastSparkleTime = currentTime;
+  }
+});
+
+// Add sparkles on click
+document.addEventListener('click', (e) => {
+  // Create multiple sparkles for click effect
+  for (let i = 0; i < 5; i++) {
+    const angle = (i / 5) * Math.PI * 2;
+    const distance = 20;
+    const x = e.clientX + Math.cos(angle) * distance;
+    const y = e.clientY + Math.sin(angle) * distance;
+    createSparkle(x, y, true);
+  }
+});
+
 function applySpringPhysics() {
   if (!isAnimating) {
     // Calculate spring force
@@ -299,3 +357,31 @@ if (toggleSwitchCheckbox) {
 // const event = new CustomEvent('switchStateChange', { detail: { newState: state } });
 // document.dispatchEvent(event);
 // // Then listen elsewhere: document.addEventListener('switchStateChange', (e) => { console.log(e.detail.newState); });
+
+// Custom cursor setup
+const customCursor = document.querySelector('.custom-cursor');
+let cursorX = 0;
+let cursorY = 0;
+let cursorTargetX = 0;
+let cursorTargetY = 0;
+
+function updateCursorPosition(e) {
+  cursorTargetX = e.clientX;
+  cursorTargetY = e.clientY;
+}
+
+function animateCursor() {
+  // Smooth cursor movement
+  cursorX += (cursorTargetX - cursorX) * 0.1;
+  cursorY += (cursorTargetY - cursorY) * 0.1;
+  
+  customCursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-15px, -15px)`;
+  
+  requestAnimationFrame(animateCursor);
+}
+
+// Start cursor animation
+animateCursor();
+
+// Update cursor position on mouse move
+document.addEventListener('mousemove', updateCursorPosition);
