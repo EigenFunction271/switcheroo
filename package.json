@@ -3,25 +3,24 @@
     "version": "1.0.0",
     "description": "A beautiful day/night toggle switch interface",
     "scripts": {
-      "dev": "parcel src/index.html",
-      "build": "parcel build src/index.html --public-url ./",
-      "start": "parcel src/index.html"
+        "dev": "parcel src/index.html",
+        "build": "parcel build src/index.html --public-url ./",
+        "start": "parcel src/index.html"
     },
-    "dependencies": {},
     "devDependencies": {
-      "parcel": "^2.11.0",
-      "@parcel/transformer-sass": "2.11.0",
-      "postcss": "^8.4.35",
-      "autoprefixer": "^10.4.17"
+        "@parcel/transformer-sass": "2.11.0",
+        "autoprefixer": "^10.4.17",
+        "parcel": "^2.11.0",
+        "postcss": "^8.4.35",
+        "svgo": "^3.3.2"
     },
     "browserslist": [
-      "last 2 versions",
-      "> 0.5%",
-      "not dead"
+        "last 2 versions",
+        "> 0.5%",
+        "not dead"
     ],
     "engines": {
-      "node": ">=18.x"
+        "node": ">=18.x"
     },
     "source": "src/index.html"
-  }
-  
+}
