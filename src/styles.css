@@ -118,6 +118,13 @@
   
   .toggle-wrapper {
     position: relative;
+    transform: translate(0, 0);
+    transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+  }
+  
+  .toggle-wrapper:hover {
+    z-index: 10;
   }
   
   /* Hide the actual checkbox */
@@ -130,14 +137,15 @@
   
   /* Style the label which acts as the visible toggle */
   .toggle-container {
-    position: relative; /* Needed for positioning pseudo-elements */
+    position: relative;
     width: 200px;
     height: 100px;
-    cursor: pointer; /* Indicate it's clickable */
-    display: block; /* Ensure it takes up space */
+    cursor: pointer;
+    display: block;
     overflow: hidden;
     border-radius: 50px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: all 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
   /* Style the background track of the toggle */

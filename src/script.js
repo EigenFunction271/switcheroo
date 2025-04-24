@@ -2,6 +2,105 @@ import confetti from 'canvas-confetti';
 
 const toggleSwitchCheckbox = document.getElementById("toggle-switch-checkbox");
 const greetingElement = document.getElementById("greeting");
+const toggleWrapper = document.querySelector(".toggle-wrapper");
+
+// Mouse avoidance variables
+const DISTANCE_THRESHOLD = 200;
+const MAX_MOVEMENT = 50;
+const SPRING_STRENGTH = 0.15; // Controls how "stiff" the spring is
+const DAMPING = 0.8; // Controls how quickly the oscillation settles
+let isAnimating = false;
+let mouseX = 0;
+let mouseY = 0;
+let switchCenterX = 0;
+let switchCenterY = 0;
+let velocityX = 0;
+let velocityY = 0;
+let targetX = 0;
+let targetY = 0;
+let currentX = 0;
+let currentY = 0;
+let animationFrame = null;
+
+function applySpringPhysics() {
+  if (!isAnimating) {
+    // Calculate spring force
+    const forceX = (targetX - currentX) * SPRING_STRENGTH;
+    const forceY = (targetY - currentY) * SPRING_STRENGTH;
+
+    // Apply force to velocity
+    velocityX += forceX;
+    velocityY += forceY;
+
+    // Apply damping
+    velocityX *= DAMPING;
+    velocityY *= DAMPING;
+
+    // Update position
+    currentX += velocityX;
+    currentY += velocityY;
+
+    // Apply movement
+    toggleWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+    // Continue animation if there's still significant movement
+    if (Math.abs(velocityX) > 0.01 || Math.abs(velocityY) > 0.01 || 
+        Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+      animationFrame = requestAnimationFrame(applySpringPhysics);
+    } else {
+      cancelAnimationFrame(animationFrame);
+      if (targetX === 0 && targetY === 0) {
+        currentX = 0;
+        currentY = 0;
+        toggleWrapper.style.transform = 'translate(0, 0)';
+      }
+    }
+  }
+}
+
+function updateSwitchPosition(e) {
+  if (isAnimating) return;
+
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  const switchRect = toggleWrapper.getBoundingClientRect();
+  switchCenterX = switchRect.left + switchRect.width / 2;
+  switchCenterY = switchRect.top + switchRect.height / 2;
+
+  const deltaX = mouseX - switchCenterX;
+  const deltaY = mouseY - switchCenterY;
+  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+  if (distance < DISTANCE_THRESHOLD) {
+    const movement = (1 - distance / DISTANCE_THRESHOLD) * MAX_MOVEMENT;
+    const angle = Math.atan2(deltaY, deltaX);
+    
+    // Set target position
+    targetX = -Math.cos(angle) * movement;
+    targetY = -Math.sin(angle) * movement;
+  } else {
+    targetX = 0;
+    targetY = 0;
+  }
+
+  // Start spring physics if not already running
+  if (!animationFrame) {
+    animationFrame = requestAnimationFrame(applySpringPhysics);
+  }
+}
+
+function resetSwitchPosition() {
+  targetX = 0;
+  targetY = 0;
+  if (!animationFrame) {
+    animationFrame = requestAnimationFrame(applySpringPhysics);
+  }
+}
+
+// Add mouse tracking
+document.addEventListener('mousemove', updateSwitchPosition);
+document.addEventListener('mouseleave', resetSwitchPosition);
 
 /**
  * Sets the visual state of the checkbox and saves the state to localStorage.
@@ -73,6 +172,20 @@ function createConfetti(isNight) {
 }
 
 function updateTheme(isNightMode) {
+  isAnimating = true;
+  cancelAnimationFrame(animationFrame);
+  animationFrame = null;
+  
+  // Reset spring physics values
+  velocityX = 0;
+  velocityY = 0;
+  currentX = 0;
+  currentY = 0;
+  targetX = 0;
+  targetY = 0;
+  
+  toggleWrapper.style.transform = 'translate(0, 0)';
+
   // Update body class
   document.body.classList.toggle("night-mode", isNightMode);
   
@@ -88,6 +201,11 @@ function updateTheme(isNightMode) {
 
   // Trigger confetti
   createConfetti(isNightMode);
+
+  // Re-enable movement after animation
+  setTimeout(() => {
+    isAnimating = false;
+  }, 1000);
 }
 
 // --- Initialization ---
