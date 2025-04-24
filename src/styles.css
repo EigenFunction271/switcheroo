@@ -2,11 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: none !important;
-  }
-  
-  /* Basic body styling just to center the toggle */
-  body {
+}
+
+/* Basic body styling just to center the toggle */
+body {
     min-height: 100vh; /* Use min-height for flexibility */
     display: flex;
     justify-content: center;
@@ -16,13 +15,13 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     position: relative;
     overflow: hidden;
-  }
-  
-  body.night-mode {
+}
+
+body.night-mode {
     background-color: #0f172a;
-  }
-  
-  .background {
+}
+
+.background {
     position: fixed;
     top: 0;
     left: 0;
@@ -30,55 +29,55 @@
     height: 100%;
     z-index: 0;
     pointer-events: none;
-  }
-  
-  .clouds {
+}
+
+.clouds {
     position: absolute;
     width: 100%;
     height: 100%;
     opacity: 0.7;
     transition: opacity 1000ms ease;
-  }
-  
-  .night-mode .clouds {
+}
+
+.night-mode .clouds {
     opacity: 0;
-  }
-  
-  .cloud {
+}
+
+.cloud {
     position: absolute;
     width: 200px;
     height: auto;
     color: white;
-  }
-  
-  .cloud-1 {
+}
+
+.cloud-1 {
     top: 20%;
     left: 10%;
     animation: float 20s infinite;
-  }
-  
-  .cloud-2 {
+}
+
+.cloud-2 {
     top: 40%;
     right: 15%;
     animation: float 25s infinite reverse;
-  }
-  
-  .cloud-3 {
+}
+
+.cloud-3 {
     top: 60%;
     left: 30%;
     animation: float 30s infinite;
-  }
-  
-  @keyframes float {
+}
+
+@keyframes float {
     0%, 100% {
-      transform: translateX(0);
+        transform: translateX(0);
     }
     50% {
-      transform: translateX(100px);
+        transform: translateX(100px);
     }
-  }
-  
-  .stars {
+}
+
+.stars {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -86,58 +85,58 @@
     transition: opacity 1000ms ease;
     background: radial-gradient(circle at center, transparent 0%, transparent 50%, rgba(255, 255, 255, 0.8) 50.1%, transparent 51%);
     background-size: 3px 3px;
-  }
-  
-  .night-mode .stars {
+}
+
+.night-mode .stars {
     opacity: 0.5;
-  }
-  
-  .container {
+}
+
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
     z-index: 1;
-  }
-  
-  h1 {
+}
+
+h1 {
     font-size: 2rem;
     color: #0f172a;
     transition: color 1000ms ease;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  @media (min-width: 768px) {
+}
+
+@media (min-width: 768px) {
     h1 {
-      font-size: 2.5rem;
+        font-size: 2.5rem;
     }
-  }
-  
-  .night-mode h1 {
+}
+
+.night-mode h1 {
     color: #f8fafc;
-  }
-  
-  .toggle-wrapper {
+}
+
+.toggle-wrapper {
     position: relative;
     transform: translate(0, 0);
     transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
     will-change: transform;
-  }
-  
-  .toggle-wrapper:hover {
+}
+
+.toggle-wrapper:hover {
     z-index: 10;
-  }
-  
-  /* Hide the actual checkbox */
-  #toggle-switch-checkbox {
+}
+
+/* Hide the actual checkbox */
+#toggle-switch-checkbox {
     opacity: 0;
     width: 0;
     height: 0;
     position: absolute; /* Keep it out of flow but accessible */
-  }
-  
-  /* Style the label which acts as the visible toggle */
-  .toggle-container {
+}
+
+/* Style the label which acts as the visible toggle */
+.toggle-container {
     position: relative;
     width: 200px;
     height: 100px;
@@ -147,10 +146,10 @@
     border-radius: 50px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     transition: all 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  
-  /* Style the background track of the toggle */
-  .toggle-container::before {
+}
+
+/* Style the background track of the toggle */
+.toggle-container::before {
     content: "";
     position: absolute;
     top: 0;
@@ -160,10 +159,10 @@
     border-radius: 50px; /* height / 2 */
     background: linear-gradient(to right, #7dd3fc, #bae6fd);
     transition: all 1000ms ease;
-  }
-  
-  /* Style the handle (the circle) of the toggle */
-  .toggle-container::after {
+}
+
+/* Style the handle (the circle) of the toggle */
+.toggle-container::after {
     content: "";
     position: absolute;
     top: 5px;
@@ -174,31 +173,31 @@
     background-color: white;
     transition: transform 0.3s ease; /* Smooth sliding transition */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* --- Checked State Styles --- */
-  /* Use the sibling combinator (~) */
-  
-  /* Change track background when checked ('on' state) */
-  #toggle-switch-checkbox:checked ~ .toggle-container::before {
+}
+
+/* --- Checked State Styles --- */
+/* Use the sibling combinator (~) */
+
+/* Change track background when checked ('on' state) */
+#toggle-switch-checkbox:checked ~ .toggle-container::before {
     background: linear-gradient(to right, #1e293b, #0f172a);
-  }
-  
-  /* Move the handle to the right when checked ('on' state) */
-  #toggle-switch-checkbox:checked ~ .toggle-container::after {
+}
+
+/* Move the handle to the right when checked ('on' state) */
+#toggle-switch-checkbox:checked ~ .toggle-container::after {
     /* Calculation: (container_width - handle_width - left_offset) */
     transform: translateX(
-      100px
+        100px
     ); /* 200px - 90px - (2*5px) -> simplified to 100px */
-  }
-  
-  /* Optional: Add focus styles for accessibility */
-  #toggle-switch-checkbox:focus-visible + .toggle-container::before {
+}
+
+/* Optional: Add focus styles for accessibility */
+#toggle-switch-checkbox:focus-visible + .toggle-container::before {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
-  }
-  
-  .toggle-icon {
+}
+
+.toggle-icon {
     position: absolute;
     width: 90px;
     height: 90px;
@@ -211,42 +210,42 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .moon-icon {
+}
+
+.moon-icon {
     opacity: 0;
     transform: rotate(-180deg);
     transition: opacity 500ms ease, transform 1000ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .sun-icon {
+}
+
+.sun-icon {
     opacity: 1;
     transition: opacity 500ms ease, transform 1000ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .sun-beams {
+}
+
+.sun-beams {
     transition: transform 500ms ease;
-  }
-  
-  #toggle-switch-checkbox:checked ~ .toggle-container .toggle-icon {
+}
+
+#toggle-switch-checkbox:checked ~ .toggle-container .toggle-icon {
     transform: translateX(100px);
-  }
-  
-  #toggle-switch-checkbox:checked ~ .toggle-container .sun-icon {
+}
+
+#toggle-switch-checkbox:checked ~ .toggle-container .sun-icon {
     opacity: 0;
     transform: rotate(180deg);
-  }
-  
-  #toggle-switch-checkbox:checked ~ .toggle-container .sun-icon .sun-beams {
+}
+
+#toggle-switch-checkbox:checked ~ .toggle-container .sun-icon .sun-beams {
     transform: rotate(45deg);
-  }
-  
-  #toggle-switch-checkbox:checked ~ .toggle-container .moon-icon {
+}
+
+#toggle-switch-checkbox:checked ~ .toggle-container .moon-icon {
     opacity: 1;
     transform: translateX(100px) rotate(0);
-  }
-  
-  #confetti-canvas {
+}
+
+#confetti-canvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -254,94 +253,94 @@
     height: 100%;
     pointer-events: none;
     z-index: 100;
-  }
-  
-  .flying-shapes {
+}
+
+.flying-shapes {
     position: absolute;
     width: 100%;
     height: 100%;
     pointer-events: none;
-  }
-  
-  .triangle {
+}
+
+.triangle {
     position: absolute;
     width: 0;
     height: 0;
     opacity: 0.6;
     animation: fly-across 15s linear infinite;
-  }
-  
-  .day-triangle {
+}
+
+.day-triangle {
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 34px solid #fde047;
     filter: drop-shadow(0 0 10px rgba(253, 224, 71, 0.3));
     opacity: 0.8;
     transition: opacity 1000ms ease;
-  }
-  
-  .night-triangle {
+}
+
+.night-triangle {
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 34px solid #94a3b8;
     filter: drop-shadow(0 0 10px rgba(148, 163, 184, 0.3));
     opacity: 0;
     transition: opacity 1000ms ease;
-  }
-  
-  .night-mode .day-triangle {
+}
+
+.night-mode .day-triangle {
     opacity: 0;
-  }
-  
-  .night-mode .night-triangle {
+}
+
+.night-mode .night-triangle {
     opacity: 0.8;
-  }
-  
-  .triangle:nth-child(1) {
+}
+
+.triangle:nth-child(1) {
     top: 15%;
     animation-delay: 0s;
-  }
-  
-  .triangle:nth-child(2) {
+}
+
+.triangle:nth-child(2) {
     top: 45%;
     animation-delay: -5s;
     animation-duration: 17s;
-  }
-  
-  .triangle:nth-child(3) {
+}
+
+.triangle:nth-child(3) {
     top: 75%;
     animation-delay: -10s;
     animation-duration: 20s;
-  }
-  
-  .triangle:nth-child(4) {
+}
+
+.triangle:nth-child(4) {
     top: 25%;
     animation-delay: -3s;
     animation-duration: 18s;
-  }
-  
-  .triangle:nth-child(5) {
+}
+
+.triangle:nth-child(5) {
     top: 55%;
     animation-delay: -8s;
     animation-duration: 16s;
-  }
-  
-  .triangle:nth-child(6) {
+}
+
+.triangle:nth-child(6) {
     top: 85%;
     animation-delay: -13s;
     animation-duration: 19s;
-  }
-  
-  @keyframes fly-across {
+}
+
+@keyframes fly-across {
     0% {
-      transform: translateX(-100px) rotate(0deg);
+        transform: translateX(-100px) rotate(0deg);
     }
     100% {
-      transform: translateX(calc(100vw + 100px)) rotate(360deg);
+        transform: translateX(calc(100vw + 100px)) rotate(360deg);
     }
-  }
-  
-  .sparkle {
+}
+
+.sparkle {
     position: fixed;
     pointer-events: none;
     border-radius: 50%;
@@ -349,45 +348,45 @@
     transform-origin: center;
     box-shadow: 0 0 4px currentColor;
     transition: opacity 0.2s ease;
-  }
-  
-  /* Custom cursor styles */
-  .custom-cursor {
+}
+
+/* Custom cursor styles */
+.custom-cursor {
     position: fixed;
     width: 30px;
     height: 30px;
     pointer-events: none;
     z-index: 9999;
-    transform: translate(-15px, -15px);
+    transform: translate(-8px, -8px);
     transition: transform 0.1s ease;
-  }
-  
-  .alien-head {
+}
+
+.alien-head {
     width: 100%;
     height: 100%;
     background-color: #4ade80;
     border-radius: 50%;
     position: relative;
     box-shadow: 0 0 5px rgba(74, 222, 128, 0.5);
-  }
-  
-  .alien-eyes {
+}
+
+.alien-eyes {
     position: absolute;
     top: 30%;
     width: 100%;
     display: flex;
     justify-content: space-around;
-  }
-  
-  .alien-eye {
+}
+
+.alien-eye {
     width: 8px;
     height: 8px;
     background-color: #000;
     border-radius: 50%;
     position: relative;
-  }
-  
-  .alien-eye::after {
+}
+
+.alien-eye::after {
     content: '';
     position: absolute;
     width: 2px;
@@ -396,9 +395,9 @@
     border-radius: 50%;
     top: 2px;
     left: 2px;
-  }
-  
-  .alien-mouth {
+}
+
+.alien-mouth {
     position: absolute;
     bottom: 25%;
     left: 50%;
@@ -407,5 +406,5 @@
     height: 4px;
     background-color: #000;
     border-radius: 2px;
-  }
+}
   
