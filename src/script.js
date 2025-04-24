@@ -6,9 +6,11 @@ const toggleWrapper = document.querySelector(".toggle-wrapper");
 
 // Mouse avoidance variables
 const DISTANCE_THRESHOLD = 400;
-const MAX_MOVEMENT = 80;
+const MAX_MOVEMENT = 250;
 const SPRING_STRENGTH = 0.12;
 const DAMPING = 0.85;
+const ROTATION_STRENGTH = 0.1;
+const MAX_ROTATION = 15; // Maximum rotation in degrees
 let isAnimating = false;
 let mouseX = 0;
 let mouseY = 0;
@@ -16,11 +18,24 @@ let switchCenterX = 0;
 let switchCenterY = 0;
 let velocityX = 0;
 let velocityY = 0;
+let rotationVelocity = 0;
 let targetX = 0;
 let targetY = 0;
 let currentX = 0;
 let currentY = 0;
+let currentRotation = 0;
 let animationFrame = null;
+let lastMouseSpeed = { x: 0, y: 0 };
+let lastMousePos = { x: 0, y: 0 };
+
+// Sound effects setup
+const swooshSound = new Audio('data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YRAAAAAA/////wAAAP//AAD//wAAAA==');
+swooshSound.volume = 0.2;
+
+const popSound = new Audio('data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YRAAAAAA/////wAAAP//AAD//wAAAA==');
+popSound.volume = 0.3;
+
+let lastSoundTime = 0;
 
 function applySpringPhysics() {
   if (!isAnimating) {
@@ -32,6 +47,16 @@ function applySpringPhysics() {
     velocityX += forceX;
     velocityY += forceY;
 
+    // Calculate rotation based on movement
+    const targetRotation = (velocityX * 0.5) * MAX_ROTATION;
+    const rotationForce = (targetRotation - currentRotation) * ROTATION_STRENGTH;
+    rotationVelocity += rotationForce;
+    rotationVelocity *= DAMPING;
+    currentRotation += rotationVelocity;
+    
+    // Clamp rotation
+    currentRotation = Math.max(Math.min(currentRotation, MAX_ROTATION), -MAX_ROTATION);
+
     // Apply damping
     velocityX *= DAMPING;
     velocityY *= DAMPING;
@@ -40,19 +65,21 @@ function applySpringPhysics() {
     currentX += velocityX;
     currentY += velocityY;
 
-    // Apply movement
-    toggleWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    // Apply movement and rotation
+    toggleWrapper.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${currentRotation}deg)`;
 
     // Continue animation if there's still significant movement
     if (Math.abs(velocityX) > 0.01 || Math.abs(velocityY) > 0.01 || 
-        Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+        Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01 ||
+        Math.abs(rotationVelocity) > 0.01) {
       animationFrame = requestAnimationFrame(applySpringPhysics);
     } else {
       cancelAnimationFrame(animationFrame);
       if (targetX === 0 && targetY === 0) {
         currentX = 0;
         currentY = 0;
-        toggleWrapper.style.transform = 'translate(0, 0)';
+        currentRotation = 0;
+        toggleWrapper.style.transform = 'translate(0, 0) rotate(0deg)';
       }
     }
   }
@@ -60,6 +87,24 @@ function applySpringPhysics() {
 
 function updateSwitchPosition(e) {
   if (isAnimating) return;
+
+  // Calculate mouse speed
+  const mouseSpeed = {
+    x: e.clientX - lastMousePos.x,
+    y: e.clientY - lastMousePos.y
+  };
+  
+  // Play swoosh sound if moving fast enough and not too frequent
+  const currentTime = Date.now();
+  const speed = Math.sqrt(mouseSpeed.x * mouseSpeed.x + mouseSpeed.y * mouseSpeed.y);
+  if (speed > 30 && currentTime - lastSoundTime > 150) {
+    swooshSound.currentTime = 0;
+    swooshSound.play();
+    lastSoundTime = currentTime;
+  }
+
+  lastMousePos = { x: e.clientX, y: e.clientY };
+  lastMouseSpeed = mouseSpeed;
 
   mouseX = e.clientX;
   mouseY = e.clientY;
@@ -76,15 +121,17 @@ function updateSwitchPosition(e) {
     const movement = (1 - distance / DISTANCE_THRESHOLD) * MAX_MOVEMENT;
     const angle = Math.atan2(deltaY, deltaX);
     
-    // Set target position
-    targetX = -Math.cos(angle) * movement;
-    targetY = -Math.sin(angle) * movement;
+    // Add some variation based on mouse speed
+    const speedFactor = Math.min(Math.abs(mouseSpeed.x) + Math.abs(mouseSpeed.y), 50) / 50;
+    const extraMovement = speedFactor * 20; // Extra movement when mouse is moving fast
+
+    targetX = -Math.cos(angle) * (movement + extraMovement);
+    targetY = -Math.sin(angle) * (movement + extraMovement);
   } else {
     targetX = 0;
     targetY = 0;
   }
 
-  // Start spring physics if not already running
   if (!animationFrame) {
     animationFrame = requestAnimationFrame(applySpringPhysics);
   }
@@ -201,6 +248,10 @@ function updateTheme(isNightMode) {
 
   // Trigger confetti
   createConfetti(isNightMode);
+
+  // Play pop sound on toggle
+  popSound.currentTime = 0;
+  popSound.play();
 
   // Re-enable movement after animation
   setTimeout(() => {
