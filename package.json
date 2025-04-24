@@ -20,7 +20,7 @@
       "not dead"
     ],
     "engines": {
-      "node": "18.x"
+      "node": ">=18.x"
     },
     "source": "src/index.html"
   }
