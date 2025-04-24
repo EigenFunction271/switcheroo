@@ -1,15 +1,23 @@
 {
-    "name": "javascript",
+    "name": "day-night-toggle",
     "version": "1.0.0",
-    "description": "The JavaScript template",
+    "description": "A beautiful day/night toggle switch interface",
     "scripts": {
-      "start": "parcel ./src/index.html",
-      "build": "parcel build ./src/index.html"
+      "dev": "parcel src/index.html",
+      "build": "parcel build src/index.html",
+      "start": "parcel src/index.html"
     },
+    "dependencies": {},
     "devDependencies": {
-      "parcel": "^2.0.0",
-      "babel-eslint": "^10.1.0",
-      "eslint": "^7.2.0"
+      "parcel": "^2.9.3"
+    },
+    "browserslist": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "engines": {
+      "node": ">=14.0.0"
     },
     "keywords": ["css", "javascript"]
   }
